@@ -1,0 +1,39 @@
+version: 2
+
+models:
+
+  - name: stg_minute_sleep_merged_3_4_5
+    description: Cleaned and unified minute-level sleep data from multiple raw sources.
+      Data cleaning involves the parsing of ActivityMinute into DATETIME, casting value to STRING and standardised column naming. 
+
+    columns:
+
+      - name: user_id
+        description: Unique identifier for each Fitbit user.
+        tests:
+          - not_null
+
+      - name: recorded_activity_date
+        description: Date-level timestamp of recorded activity.
+        tests:
+          - not_null
+
+      - name: sleep_type
+        description: Sleep type encoded as string values 1–3.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['1', '2', '3']
+
+      - name: log_id
+        description: Logging id for the sleep study.
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - user_id
+              - recorded_activity_date

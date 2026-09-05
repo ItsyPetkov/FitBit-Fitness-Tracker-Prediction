@@ -1,0 +1,114 @@
+version: 2
+
+models:
+
+  - name: fct_daily_activity
+    description: Merged daily activity data from multiple existing views.
+      References include; i) stg_daily_activity_merged_3_4_5; and
+      ii) stg_sleep_day_merged_4_5.
+
+    columns:
+
+      - name: user_id
+        description: Unique identifier for each Fitbit user.
+        tests:
+          - not_null
+
+      - name: activity_date
+        description: Date of recorded activity.
+        tests:
+          - not_null
+
+      - name: total_steps
+        description: Total steps taken during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: total_distance
+        description: Total distance covered during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+      - name: very_active_minutes
+        description: Minutes covered when the user is highly active during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: fairly_active_minutes
+        description: Minutes covered when the user is fairly active during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: lightly_active_minutes
+        description: Minutes covered when the user is lightly active during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: sedentary_minutes
+        description: Minutes covered when the user is sedentary during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: calories
+        description: Calories burnt through the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: total_minutes_asleep
+        description: Total minutes asleep per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: total_time_in_bed
+        description: Total minutes in bed per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: day_of_week
+        description: The day of the week in which the daily activity is recorded.
+        tests:
+          - not_null
+
+      - name: day_name
+        description: The name of the day in which the daily activity is recorded.
+        tests:
+          - not_null
+
+      - name: month
+        description: The month of the year in which the minute activity is recorded.
+        tests:
+          - not_null
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - user_id
+              - activity_date

@@ -1,0 +1,62 @@
+version: 2
+
+models:
+
+  - name: int_minute_activity_data
+    description: Merged minute-level activity data from multiple existing views.
+      References include; i) stg_minute_calories_narrow_merged_3_4_5; 
+      ii) stg_minute_intensities_narrow_merged_3_4_5;
+      iii) stg_minute_mets_narrow_merged_3_4_5 and 
+      iv) stg_minute_steps_narrow_merged_3_4_5.
+
+    columns:
+
+      - name: user_id
+        description: Unique identifier for each Fitbit user.
+        tests:
+          - not_null
+
+      - name: activity_minute
+        description: Minute-level timestamp for each recorded piece of data.
+        tests:
+          - not_null
+
+      - name: steps
+        description: Steps taken during the given minute.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: calories
+        description: Calories burned during the given minute.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+      - name: intensity
+        description: Activity intensity encoded as string values 0–3.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['0', '1', '2', '3']
+      
+      - name: mets
+        description: Ratio of the energy users are using in a physical activity
+         compared to the energy they would use at rest during the give minute.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - user_id
+              - activity_minute

@@ -1,0 +1,29 @@
+version: 2
+
+sources:
+  - name: raw
+    database: tonal-mote-500309-c6
+    schema: raw
+    tables:
+      - name: minuteCaloriesNarrow_merged_3_4
+      - name: minuteCaloriesNarrow_merged_4_5
+      - name: minuteIntensitiesNarrow_merged_3_4
+      - name: minuteIntensitiesNarrow_merged_4_5
+      - name: minuteMETsNarrow_merged_3_4
+      - name: minuteMETsNarrow_merged_4_5
+      - name: minuteSleep_merged_3_4
+      - name: minuteSleep_merged_4_5
+      - name: minuteStepsNarrow_merged_3_4
+      - name: minuteStepsNarrow_merged_4_5
+      - name: dailyActivity_merged_3_4
+      - name: dailyActivity_merged_4_5
+      - name: hourlyCalories_merged_3_4
+      - name: hourlyCalories_merged_4_5
+      - name: hourlyIntensities_merged_3_4
+      - name: hourlyIntensities_merged_4_5
+      - name: hourlySteps_merged_3_4
+      - name: hourlySteps_merged_4_5
+      - name: sleepDay_merged_4_5
+      - name: dailyCalories_merged_4_5
+      - name: dailyIntensities_merged_4_5
+      - name: dailySteps_merged_4_5

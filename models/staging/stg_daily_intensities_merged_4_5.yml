@@ -1,0 +1,90 @@
+version: 2
+
+models:
+
+  - name: stg_daily_intensities_merged_4_5
+    description: Cleaned and unified day-level intensity data from multiple raw sources.
+       Data cleaning involves the parsing of ActivityDay into DATE and standardised column naming.
+
+    columns:
+
+      - name: user_id
+        description: Unique identifier for each Fitbit user.
+        tests:
+          - not_null
+
+      - name: activity_day
+        description: Day-level timestamp of recorded calories.
+        tests:
+          - not_null
+
+      - name: sedentary_minutes
+        description: Total sedentary minutes per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: lightly_active_minutes
+        description: Total lightly active minutes per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: fairly_active_minutes
+        description: Total fairly active minutes per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: very_active_minutes
+        description: Total very active minutes per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: sedentary_active_distance
+        description: Total sedentary active distance per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+      - name: light_active_distance
+        description: Total light active distance per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+      - name: moderately_active_distance
+        description: Total moderately active distance per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+      - name: very_active_distance
+        description: Total very active distance per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - user_id
+              - activity_day

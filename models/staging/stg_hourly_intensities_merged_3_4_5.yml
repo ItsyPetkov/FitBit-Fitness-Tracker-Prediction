@@ -1,0 +1,42 @@
+version: 2
+
+models:
+
+  - name: stg_hourly_intensities_merged_3_4_5
+    description: Cleaned and unified hour-level intensities data from multiple raw sources.
+       Data cleaning involves the parsing of ActivityHour into DATETIME, rounding average intensities and standardised column naming.
+
+    columns:
+
+      - name: user_id
+        description: Unique identifier for each Fitbit user.
+        tests:
+          - not_null
+
+      - name: activity_hour
+        description: Hour-level timestamp of recorded intensities.
+        tests:
+          - not_null
+
+      - name: total_intensity
+        description: Total number of intensities during the given hour.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: average_intensity
+        description: Average number of intensities during the given hour.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - user_id
+              - activity_hour

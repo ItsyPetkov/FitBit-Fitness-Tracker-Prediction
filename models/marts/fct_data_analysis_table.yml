@@ -1,0 +1,230 @@
+version: 2
+
+models:
+
+  - name: fct_data_analysis_table
+    description: Merged all existing tables in the marts folder into a single analysis-ready table.
+      References include; i) fct_hourly_activity; ii) fct_minute_activity; 
+      iii) fct_daily_activity; and iv) fct_dim_users.
+
+    columns:
+
+      - name: user_id
+        description: Unique identifier for each Fitbit user.
+        tests:
+          - not_null
+
+      - name: activity_hour
+        description: Hour-level timestamp of recorded activity data.
+        tests:
+          - not_null
+
+      - name: calories_per_hour
+        description: Calories burned during the given hour.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: steps_per_hour
+        description: Total steps taken during the given hour.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: total_intensities_per_hour
+        description: Total number of intensities during the given hour.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: average_intensities_per_hour
+        description: Average number of intensities during the given hour.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+      - name: hour_of_day
+        description: Specific number of the hour (not DATE or DATETIME).
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+                max_value: 23
+
+      - name: day_of_week
+        description: Specific number of the day associated with the recorded activity data
+          (not DATE or DATETIME).
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+                max_value: 7
+
+      - name: day_name
+        description: Name of day (Monday, Tuesday, Wednesday, 
+          Thursday, Friday, Saturday, Sunday).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Monday', 'Tuesday', 'Wednesday', 'Thursday',
+                         'Friday', 'Saturday', 'Sunday']
+
+      - name: day_type
+        description: Type of day (Weekday, Weekend).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Weekend', 'Weekday']
+
+      - name: time_of_day
+        description: Type of time during the day (Morning, Afternoon, Evening, Night).
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Morning', 'Afternoon', 'Evening', 'Night']
+
+      - name: activity_date
+        description: Date of recorded activity.
+        tests:
+          - not_null
+
+      - name: month
+        description: Specific number of the month associated with the recorded activity data
+          (not DATE or DATETIME).
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+                max_value: 12
+
+      - name: activity_minute
+        description: Minute-level timestamp for each recorded piece of data.
+        tests:
+          - not_null
+
+      - name: steps_per_minute
+        description: Steps taken during the given minute.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: calories_per_minute
+        description: Calories burned during the given minute.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+      - name: intensity_type
+        description: Activity intensity encoded as string values 0–3.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['0', '1', '2', '3']
+
+      - name: total_steps_per_day
+        description: Total steps taken during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: total_calories_per_day
+        description: Calories burnt through the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: total_distance_per_day
+        description: Total distance covered during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0.0
+
+      - name: very_active_minutes
+        description: Minutes covered when the user is highly active during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: fairly_active_minutes
+        description: Minutes covered when the user is fairly active during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: lightly_active_minutes
+        description: Minutes covered when the user is lightly active during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: sedentary_minutes
+        description: Minutes covered when the user is sedentary during the day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: total_minutes_asleep
+        description: Total minutes asleep per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: total_time_in_bed
+        description: Total minutes in bed per day.
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0
+
+      - name: first_activity_date
+        description: First recorded date of user activity in the dataset.
+        tests:
+          - not_null
+
+      - name: last_activity_date
+        description: Most recent recorded date of user activity in the dataset.
+        tests:
+          - not_null
+
+      - name: days_recorded
+        description: Number of distinct days the user has recorded activity.
+        tests:
+          - not_null
+
+      

@@ -1,0 +1,23 @@
+name: google_data_analytics_project
+
+profile: google_data_analytics_project
+
+seed-paths: ["seeds"]
+model-paths: ["models"]
+macro-paths: ["macros"]
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  google_data_analytics_project:
+    +static_analysis: strict
+    # Materialize staging models as views, and marts as tables
+    staging:
+      +materialized: view
+
+    intermediate:
+      +materialized: view
+
+    marts:
+      +materialized: table

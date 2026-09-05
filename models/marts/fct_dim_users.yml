@@ -1,0 +1,29 @@
+version: 2
+
+models:
+
+  - name: fct_dim_users
+    description: Dimension table containing one row per user. Built from minute-level activity data
+      to ensure full user coverage, and enriched with daily activity metrics for behavioural analysis.
+
+    columns:
+
+      - name: user_id
+        description: Unique identifier for each Fitbit user.
+        tests:
+          - not_null
+
+      - name: first_activity_date
+        description: First recorded date of user activity in the dataset.
+        tests:
+          - not_null
+
+      - name: last_activity_date
+        description: Most recent recorded date of user activity in the dataset.
+        tests:
+          - not_null
+
+      - name: days_recorded
+        description: Number of distinct days the user has recorded activity.
+        tests:
+          - not_null
